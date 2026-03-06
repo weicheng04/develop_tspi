@@ -120,13 +120,22 @@ void *ble_thread_func(void *arg)
         char send_buf[64];
         snprintf(send_buf, sizeof(send_buf), "RK3566 #%d", ++msg_count);
 
+        printf("[BLE TX] Attempting to send: %s (len=%zu)\n",
+               send_buf, strlen(send_buf));
+
         if (dev_ap6212_ble_send((uint8_t *)send_buf, strlen(send_buf)) == 0)
         {
-            printf("[BLE TX] Sent: %s\n", send_buf);
+            printf("[BLE TX] Sent successfully: %s\n", send_buf);
         }
         else
         {
-            printf("[BLE TX] Send failed\n");
+            printf("[BLE TX] Send failed for msg #%d, checking connection...\n",
+                   msg_count);
+            if (!dev_ap6212_ble_is_connected())
+            {
+                printf("[BLE TX] Connection lost, exiting send loop\n");
+                break;
+            }
         }
 
         /* 接收数据 (等待 2 秒) */
@@ -136,6 +145,15 @@ void *ble_thread_func(void *arg)
         {
             recv_buf[recv_len] = '\0';
             printf("[BLE RX] Received (%d bytes): %s\n", recv_len, (char *)recv_buf);
+        }
+        else if (recv_len == 0)
+        {
+            printf("[BLE RX] No data received (timeout)\n");
+        }
+        else
+        {
+            printf("[BLE RX] Receive error (ret=%d), errno=%d: %s\n",
+                   recv_len, errno, strerror(errno));
         }
 
         sleep(1);

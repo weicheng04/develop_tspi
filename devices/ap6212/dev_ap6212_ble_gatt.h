@@ -138,9 +138,21 @@ const ble_conn_t *dev_ap6212_ble_get_state(void);
 int dev_ap6212_ble_is_connected(void);
 
 /**
- * @brief 向指定句柄写入数据
+ * @brief 向指定句柄写入数据 (Write Without Response)
  */
 int dev_ap6212_ble_write(uint16_t handle, const uint8_t *data, int len);
+
+/**
+ * @brief 向指定句柄写入数据 (Write With Response, 等待 ATT_OP_WRITE_RSP)
+ *
+ * 适用于需要确认写入的特征, 比无响应写更可靠。
+ *
+ * @param handle  特征值句柄
+ * @param data    数据
+ * @param len     数据长度
+ * @return 0 成功, -1 失败
+ */
+int dev_ap6212_ble_write_req(uint16_t handle, const uint8_t *data, int len);
 
 /**
  * @brief 从指定句柄读取数据
