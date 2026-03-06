@@ -587,50 +587,20 @@ static int bt_load_firmware_direct(const char *uart_dev, const char *fw_path)
         printf("[BT] HCI_Reset OK (baud=%d)\n", current_baud);
     }
 
-    /* 如果芯片在 1500000 响应了, 需要切回 115200 重新加载固件 */
+    /* 如果芯片在 1500000 响应了, 说明固件已经可用, 直接跳到 N_HCI 设置 */
     if (current_baud == 1500000)
     {
-        printf("[BT] Chip was at 1500000, sending reset to reload...\n");
-        /* 芯片已经有固件, HCI_Reset 不会回到 bootloader.
-         * 需要做 rfkill power cycle 才能回到 bootloader (115200). */
-        close(fd);
+        printf("[BT] Chip already running with firmware at 1500000\n");
+        printf("[BT] Skipping firmware reload, proceeding to N_HCI setup\n");
 
-        printf("[BT] Full power cycle to get back to bootloader...\n");
-        bt_power_cycle();
-
-        /* 重新打开和配置 UART */
-        fd = open(uart_dev, O_RDWR | O_NOCTTY);
-        if (fd < 0)
-        {
-            printf("[BT] Cannot reopen UART\n");
-            return -1;
-        }
-        ldisc_tty = N_TTY;
-        ioctl(fd, TIOCSETD, &ldisc_tty);
-        tcflush(fd, TCIOFLUSH);
-        tcgetattr(fd, &ti);
-        cfmakeraw(&ti);
-        ti.c_cflag |= CRTSCTS;
-        tcsetattr(fd, TCSANOW, &ti);
-        tcflush(fd, TCIOFLUSH);
-        tcsetattr(fd, TCSANOW, &ti);
-        tcflush(fd, TCIOFLUSH);
-        cfsetospeed(&ti, B115200);
-        cfsetispeed(&ti, B115200);
+        /* 确保 UART 配置正确 (1500000 + CRTSCTS) */
+        cfsetospeed(&ti, B1500000);
+        cfsetispeed(&ti, B1500000);
         tcsetattr(fd, TCSANOW, &ti);
         tcflush(fd, TCIOFLUSH);
 
-        /* 再次 HCI_Reset */
-        printf("[BT] HCI_Reset at 115200 after power cycle...\n");
-        ret = hci_uart_send_cmd(fd, hci_reset, sizeof(hci_reset), 4000);
-        if (ret < 0)
-        {
-            printf("[BT] HCI_Reset at 115200 failed after power cycle\n");
-            close(fd);
-            return -1;
-        }
-        printf("[BT] HCI_Reset OK at 115200\n");
-        current_baud = 115200;
+        /* 直接跳到设置 N_HCI line discipline */
+        goto setup_nhci;
     }
 
     /* 3. proc_patchram: 下载固件 */
@@ -777,6 +747,7 @@ static int bt_load_firmware_direct(const char *uart_dev, const char *fw_path)
         printf("[BT] Baudrate change failed, staying at 115200\n");
     }
 
+setup_nhci:
     /* 5. proc_enable_hci: 设置 N_HCI line discipline + HCI UART 协议 */
     printf("[BT] Setting N_HCI line discipline...\n");
     int ldisc = N_HCI;
