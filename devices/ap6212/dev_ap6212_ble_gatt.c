@@ -475,8 +475,8 @@ static int scan_for_device(const char *target_name, int timeout_sec,
     /* 设置 LE 扫描参数 */
     int err = hci_le_set_scan_parameters(sock,
                                          0x01,          /* Active scan */
-                                         htobs(0x0010), /* interval */
-                                         htobs(0x0010), /* window */
+                                         htobs(0x0030), /* interval = 30ms */
+                                         htobs(0x0030), /* window = 30ms */
                                          0x00,          /* own addr type */
                                          0x00,          /* filter policy */
                                          1000);
@@ -545,7 +545,7 @@ static int scan_for_device(const char *target_name, int timeout_sec,
             while (offset < info->length)
             {
                 uint8_t field_len = info->data[offset];
-                if (field_len == 0 || offset + field_len >= info->length)
+                if (field_len == 0 || offset + 1 + field_len > info->length)
                     break;
 
                 uint8_t field_type = info->data[offset + 1];
@@ -618,15 +618,15 @@ static int l2cap_ble_connect(const bdaddr_t *dst, uint8_t dst_type)
      */
 
     int max_retries = 3;
-    int security_levels[] = {BT_SECURITY_MEDIUM, BT_SECURITY_LOW, BT_SECURITY_MEDIUM};
+    int security_levels[] = {BT_SECURITY_MEDIUM, BT_SECURITY_MEDIUM, BT_SECURITY_MEDIUM};
     int sock = -1;
 
     for (int retry = 0; retry < max_retries; retry++)
     {
         if (retry > 0)
         {
-            printf("[BLE] Retry %d/%d (wait 3s)...\n", retry + 1, max_retries);
-            sleep(3);
+            printf("[BLE] Retry %d/%d (wait 5s)...\n", retry + 1, max_retries);
+            sleep(5);
         }
 
         sock = socket(PF_BLUETOOTH, SOCK_SEQPACKET, BTPROTO_L2CAP);
@@ -751,8 +751,8 @@ int dev_ap6212_ble_connect(const char *device_name, int scan_timeout_sec)
     strncpy(g_conn.device_name, device_name, sizeof(g_conn.device_name) - 1);
 
     /* 扫描结束后等待, 确保 HCI 扫描状态已完全清除 */
-    printf("[BLE] Scan stopped, waiting 2s before connecting...\n");
-    sleep(2);
+    printf("[BLE] Scan stopped, waiting 3s before connecting...\n");
+    sleep(3);
 
     /* ===== 2. 建立 BLE 连接 (HCI LE + L2CAP ATT) ===== */
     printf("[2/5] Connecting via BLE...\n");
@@ -761,6 +761,10 @@ int dev_ap6212_ble_connect(const char *device_name, int scan_timeout_sec)
     {
         return -1;
     }
+
+    /* 等待 SMP 配对完成, 避免立即发送 MTU Exchange 被拒绝 */
+    printf("[BLE] L2CAP connected, waiting 2s for SMP pairing to complete...\n");
+    sleep(2);
 
     /* ===== 3. 交换 MTU ===== */
     printf("[3/5] Exchanging MTU...\n");
@@ -1120,6 +1124,66 @@ int dev_ap6212_ble_write(uint16_t handle, const uint8_t *data, int len)
     free(pdu);
 
     return (ret > 0) ? 0 : -1;
+}
+
+int dev_ap6212_ble_write_req(uint16_t handle, const uint8_t *data, int len)
+{
+    if (g_conn.l2cap_sock < 0)
+        return -1;
+
+    /* 检查长度是否超过 MTU (ATT header = 3 bytes) */
+    int max_payload = g_conn.mtu - 3;
+    if (len > max_payload)
+    {
+        printf("[BLE] Data too long (%d > %d), truncating\n", len, max_payload);
+        len = max_payload;
+    }
+
+    int pdu_len = 3 + len;
+    uint8_t *pdu = (uint8_t *)malloc(pdu_len);
+    if (!pdu)
+    {
+        printf("[BLE] Write request: failed to allocate PDU buffer\n");
+        return -1;
+    }
+
+    /* 使用 Write Request (等待 Write Response, 确保数据已被接收) */
+    pdu[0] = ATT_OP_WRITE_REQ;
+    pdu[1] = handle & 0xFF;
+    pdu[2] = (handle >> 8) & 0xFF;
+    memcpy(&pdu[3], data, len);
+
+    int ret = att_send(pdu, pdu_len);
+    free(pdu);
+
+    if (ret <= 0)
+        return -1;
+
+    /* 等待 Write Response */
+    uint8_t rsp[5];
+    int rsp_len = att_recv_response(rsp, sizeof(rsp), 5000);
+    if (rsp_len < 1)
+    {
+        printf("[BLE] Write request: no response (timeout)\n");
+        return -1;
+    }
+
+    if (rsp[0] == ATT_OP_WRITE_RSP)
+    {
+        return 0;
+    }
+
+    if (rsp[0] == ATT_OP_ERROR && rsp_len >= 5)
+    {
+        printf("[BLE] Write request error: handle=0x%04X code=0x%02X\n",
+               rsp[2] | (rsp[3] << 8), rsp[4]);
+    }
+    else
+    {
+        printf("[BLE] Write request: unexpected response 0x%02X\n", rsp[0]);
+    }
+
+    return -1;
 }
 
 int dev_ap6212_ble_read(uint16_t handle, uint8_t *data, int max_len)
