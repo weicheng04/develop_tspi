@@ -1,0 +1,141 @@
+###AMPAK FW Auto detection patch version = [v1.1 20161117]###
+FW folder path = /system/etc/firmware
+proc_resetchip id = BCM43438A1 26MHZ AP6212A1_CL1 BT4.0 OTP-BD
+FW path = 4.0 OTP-BD/BCM43438A1 26MHZ AP6212A1_CL1 BT4.0 OTP-BD.hcd
+file 4.0 OTP-BD/BCM43438A1 26MHZ AP6212A1_CL1 BT4.0 OTP-BD.hcd could not be opened, error 2
+Retry lower case FW name
+FW path = 4.0 otp-bd/bcm43438a1 26mhz ap6212a1_cl1 bt4.0 otp-bd.hcd
+file 4.0 otp-bd/bcm43438a1 26mhz ap6212a1_cl1 bt4.0 otp-bd.hcd could not be opened, error 2
+Successfully initialized wpa_supplicant
+udhcpc: started, v1.34.1
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 192.168.1.9, server 192.168.1.1
+udhcpc: lease of 192.168.1.9 obtained from 192.168.1.1, lease time 604800
+deleting routers
+adding dns 120.196.165.24
+adding dns 211.136.192.6
+          inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
+drm: Found plane_id: 57 connector_id: 108 crtc_id: 85
+drm: 480x800 (0mm X 0mm) pixel format XR24
+DRM subsystem and buffer mapped successfully
+[Main] Log file: /root/robot_20260302_162845.log
+[Main] Initializing WiFi and MQTT managers...
+[Main] Initializing Bluetooth BLE...
+
+=== AP6212 Bluetooth Init (BCM43430A1) ===
+UART: /dev/ttyS1, Baudrate: 115200
+
+[1/6] Cleaning up existing HCI...
+[BT] Command failed: killall brcm_patchram_plus1 2>/dev/null
+[BT] Command failed: killall hciattach 2>/dev/null
+[BT] Command failed: hciconfig hci0 down 2>/dev/null
+[2/7] Resetting Bluetooth chip via rfkill...
+[BT] Found bluetooth rfkill: rfkill0
+[BT] rfkill rfkill0 = 1
+[BT] Chip powered off, waiting 3s...
+[BT] Found bluetooth rfkill: rfkill0
+[BT] rfkill rfkill0 = 0
+[BT] Chip powered on, waiting 5s for ready...
+[3/7] Creating firmware symlinks for AMPAK auto-detection...
+[BT] Created firmware symlink (uppercase)
+[BT] Created firmware symlink (lowercase)
+[4/7] Loading firmware via brcm_patchram_plus1...
+[Debug] Executing: /usr/bin/brcm_patchram_plus1 --patchram /system/etc/firmware/BCM43430A1.hcd --baudrate 115200 --enable_hci --no2bytes --use_baudrate_for_download /dev/ttyS1 &
+[5/7] Waiting for firmware loading...
+[Error] HCI device not created after firmware loading
+[Warning] Bluetooth init failed, skipping BLE scan
+=== WiFi Connecting ===
+SSID: CMCC-qXfU
+Interface: wlan0
+
+[1/5] Clear Existing Connections...
+[Error] Command Failed: killall wpa_supplicant 2>/dev/null
+[Error] Command Failed: killall udhcpc 2>/dev/null
+[2/5] Enable WiFi Interface...
+[3/5] Create WiFi Configuration...
+[4/5] Connect To WiFi...
+Waiting For WiFi Connection...
+[Success] WiFi is Connected
+[5/5] Get Ip Address...
+
+=== WiFi Is Connected ===
+
+[WiFi Info]
+IP Address: 192.168.1.9
+Subnet Mask: 
+Gateway: 
+MAC Address: C0:F5:35:4E:BD:F0
+Signal Strength: -35 dBm
+[Main] Initializing LVGL...
+[Main] Initializing DRM display (/dev/dri/card0)...
+
+[MQTT Thread] Starting...
+
+=== Mqtt Connection ===
+Server: mqtt://139.9.0.201:1883
+Client ID: RK3566_Device
+
+[1/2] Create Mqtt Client...
+[2/2] Connect To Mqtt Server...
+[Main] DRM Display: 480x800, DPI: 0
+[Main] Initializing touchscreen (/dev/input/event2)...
+[Main] Displaying GIF emoji cycle...
+[Main] Entering main loop...
+[Success] Connected To Mqtt Server
+[MQTT Thread] Connected and Subscribed
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 2/9
+[MQTT Thread] Published: Hello I am tspi
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 3/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 4/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 5/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 6/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 7/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 8/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 9/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 1/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 2/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 3/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 4/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 5/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 6/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 7/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 8/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 9/9
+[MQTT Thread] Published: Hello I am tspi
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 1/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 2/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 3/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 4/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 5/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 6/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 7/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 8/9
+[MQTT Thread] Published: Hello I am tspi
+[GIF] Switching to emoji 9/9
+[MQTT Thread] 

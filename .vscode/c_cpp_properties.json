@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "wheel_legged_robot_tspi",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/paho_mqtt_arm64/include/**",
+                "/usr/include"
+            ]
+        }
+    ],
+    "version": 4
+}

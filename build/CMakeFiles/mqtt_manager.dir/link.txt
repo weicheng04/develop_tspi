@@ -1,0 +1,2 @@
+/usr/bin/aarch64-linux-gnu-ar qc libmqtt_manager.a CMakeFiles/mqtt_manager.dir/library/mqtt/lib_mqtt.c.o
+/usr/bin/aarch64-linux-gnu-ranlib libmqtt_manager.a

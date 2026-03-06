@@ -1,0 +1,2 @@
+/usr/bin/aarch64-linux-gnu-ar qc libdevice_drivers.a CMakeFiles/device_drivers.dir/devices/ap6212/dev_ap6212_wifi.c.o CMakeFiles/device_drivers.dir/devices/ap6212/dev_ap6212_bt.c.o CMakeFiles/device_drivers.dir/devices/ap6212/dev_ap6212_ble_gatt.c.o
+/usr/bin/aarch64-linux-gnu-ranlib libdevice_drivers.a

@@ -1,0 +1,22 @@
+CMakeFiles/lvgl.dir/library/lvgl/src/draw/sdl/lv_draw_sdl_utils.c.o: \
+ /home/xiao/wheel_legged_robot_tspi/library/lvgl/src/draw/sdl/lv_draw_sdl_utils.c \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/stdc-predef.h \
+ /home/xiao/wheel_legged_robot_tspi/library/lvgl/src/draw/sdl/../../lv_conf_internal.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/stdint.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/libc-header-start.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/features.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/features-time64.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/wordsize.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/timesize.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/sys/cdefs.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/long-double.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs-lp64.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/types.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/typesizes.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/time64.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/wchar.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/stdint-intn.h \
+ /home/xiao/tspi_buildroot_system_build/Release/buildroot/output/rockchip_rk3566/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/bits/stdint-uintn.h \
+ /home/xiao/wheel_legged_robot_tspi/library/lvgl/src/draw/sdl/../../lv_conf_kconfig.h \
+ /home/xiao/wheel_legged_robot_tspi/library/lv_conf.h

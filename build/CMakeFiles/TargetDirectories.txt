@@ -1,0 +1,7 @@
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/lvgl.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/lv_drivers.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/mqtt_manager.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/device_drivers.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/wheel_legged_robot_tspi.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/edit_cache.dir
+/home/xiao/wheel_legged_robot_tspi/build/CMakeFiles/rebuild_cache.dir
